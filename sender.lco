@@ -1,0 +1,25 @@
+\ProvidesFile{sender.lco}
+
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[ngerman]{babel}
+\RequirePackage{graphicx}
+
+
+\setkomavar{fromname}{Vorname Nachname}
+\setkomavar{fromaddress}{Musterstrße 1\\12345 Musterstadt\\GERMANY}
+\setkomavar{fromphone}{+49~000~0000}
+\setkomavar{fromfax}{+49~00~0000}
+\setkomavar{frommobilephone}{+49~000~0000}
+\setkomavar{fromemail}{Info@Muster.de}
+\setkomavar{fromurl}{www.Muster.de}
+
+\setkomavar{frombank}{\raggedright
+    \banklogo \textbf{Bank 1} \sep \textbf{BIC}~BANK1000000 \sep \textbf{IBAN}~DE00~0000~0000~0000~0000~00\\
+    \banklogo \textbf{Bank 2} \sep \textbf{BIC}~BANK2000000 \sep \textbf{IBAN}~DE00~0000~0000~0000~0000~00
+}
+
+\setkomavar{signature}{
+    \\[-3\baselineskip]
+    \includegraphics[width=5cm]{./signature.png}
+}
+\renewcommand*{\raggedsignature}{\raggedright}

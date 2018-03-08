@@ -1,0 +1,71 @@
+%---------------------------------------------------------------------------
+% general settings
+\documentclass[
+    fontsize=12pt,              % font size
+    paper=a4,                   % paper size
+    parskip=half,               % paragraphing
+    footnotes=true,             % switch to enable footnotes
+    firsthead=true,             % switch to enable header on first page
+    firstfoot=true,             % switch to enable footer on first page
+    locfield=wide,              % width of location field
+    enlargefirstpage,           % more space on the first page
+    DIN                         % DIN letter format
+]{scrlttr2}
+
+
+%---------------------------------------------------------------------------
+% packages
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{scrlayer-scrpage}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{lastpage}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{fontawesome}
+
+\usepackage{lipsum}
+
+\input{macros.tex}
+
+
+%---------------------------------------------------------------------------
+% general layout
+\LoadLetterOption{sender}               % sender via sender.lco
+
+%\getkomasenderlocation{\footnotesize}  % sender info in location field
+
+
+%---------------------------------------------------------------------------
+% document
+\begin{document}
+
+\begin{letter}{Empfängername\\Empfängerstraße\\PLZ Ort}
+
+\setkomavar{date}{\today}
+\setkomavar{place}{}
+
+\setkomavar{title}{}
+\setkomavar{yourref}{}
+\setkomavar{yourmail}{}
+\setkomavar{myref}{}
+\setkomavar{customer}{}
+\setkomavar{invoice}{}
+
+\setkomavar{specialmail}{}
+
+\setkomavar{subject}{}
+
+\opening{Sehr geehrte Damen und Herren,}
+
+\lipsum[1-5]
+
+\closing{Mit freundlichen Grüßen}
+
+\encl{}
+
+\end{letter}
+
+\end{document}

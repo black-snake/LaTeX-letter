@@ -1,0 +1,104 @@
+%---------------------------------------------------------------------------
+% no widows and orphans
+\clubpenalty10000
+\widowpenalty10000
+\displaywidowpenalty=10000
+
+%---------------------------------------------------------------------------
+% display page numbers differently (page n / m)
+\setkomafont{pagenumber}{\raggedleft \footnotesize}
+\renewcommand{\pagemark}{\usekomafont{pagenumber} \thepage~/~\pageref{LastPage}}
+
+%---------------------------------------------------------------------------
+% layout customization
+\makeatletter
+\@addtoplength[-]{firstheadvpos}{-12.5pt}   % place header a bit more up
+\@addtoplength[-]{firstfootvpos}{45pt}      % place footer a bit more down
+\makeatother
+
+\clearpairofpagestyles
+
+% adjust header and footer to be placed identical to the first page 
+\ModifyLayer[voffset=\dimexpr\useplength{firstfootvpos}\relax]{scrheadings.foot.oneside}
+\ModifyLayer[voffset=\dimexpr\useplength{firstfootvpos}\relax]{scrheadings.foot.above.line}
+\ModifyLayer[align=t, voffset=\dimexpr\useplength{firstheadvpos}]{scrheadings.head.oneside}
+
+% adjust width of header and footer to be identical to the first page
+\KOMAoptions{headwidth=\useplength{firstheadwidth}, headheight=36pt}
+\KOMAoptions{footwidth=\useplength{firstfootwidth}, footheight=90pt}
+
+% remove shared formatting of header and footer
+\setkomafont{pageheadfoot}{}
+
+% recalculate header and footer
+\recalctypearea
+
+%---------------------------------------------------------------------------
+% set length of icon separator
+\newlength \iconsep
+\setlength{\iconsep}{1em}
+
+%---------------------------------------------------------------------------
+% sender info command for location field
+\newcommand{\getkomasenderinfo}[4]{%
+    \ifkomavarempty{#1}{}{
+        \parbox{\iconsep}{\centering #2} {\def\\{#3}~\usekomavar{#1}} #4
+    }
+}
+
+%---------------------------------------------------------------------------
+% prepare bank information for footer
+\newcommand{\getkomabankinfo}{%
+    \def \sep{&}
+    \def \banklogo{\faBank~}
+    \begin{tabular}{lll}
+        \usekomavar{frombank}
+    \end{tabular}
+}
+
+%---------------------------------------------------------------------------
+% location field command
+\def \locationinfosep{\newline \hspace*{\iconsep} \hphantom{~}}
+
+\newcommand{\getkomasenderlocation}[1]{%
+    \setkomavar{location}{\raggedright #1\\
+        \getkomasenderinfo{fromaddress}{\faMapMarker}{\locationinfosep}{\\}
+        \getkomasenderinfo{fromphone}{\faPhone}{\locationinfosep}{\\}
+        \getkomasenderinfo{fromfax}{\faFax}{\locationinfosep}{\\}
+        \getkomasenderinfo{frommobilephone}{\faMobile}{\locationinfosep}{\\}
+        \getkomasenderinfo{fromemail}{\faEnvelopeO}{\locationinfosep}{\\}
+        \getkomasenderinfo{fromurl}{\faGlobe}{\locationinfosep}{\\}
+    }
+}
+
+%---------------------------------------------------------------------------
+% header
+\newcommand{\header}{%
+    \parbox[t]{\useplength{firstheadwidth}}{
+        \raggedleft \huge \usekomavar{fromname}\\[-.375\baselineskip]
+        \rule[0.5em]{\useplength{firstheadwidth}}{0.75pt}\\[-\baselineskip]
+    }
+}
+\setkomavar{firsthead}{\header}
+\ohead*{{\header}}
+
+%---------------------------------------------------------------------------
+% footer
+\def \footerinfosep{, }
+
+\newcommand{\footer}{%
+    \parbox{\useplength{firstfootwidth}}{
+        \pagemark\\
+        \rule[2mm]{\useplength{firstfootwidth}}{0.5pt}
+        \centering \scriptsize
+
+        \getkomasenderinfo{fromaddress}{\faMapMarker}{\footerinfosep}{\\}
+        \getkomasenderinfo{fromphone}{\faPhone}{\footerinfosep}{} \getkomasenderinfo{fromfax}{\faFax}{\footerinfosep}{} \getkomasenderinfo{frommobilephone}{\faMobile}{\footerinfosep}{} \\
+        \getkomasenderinfo{fromemail}{\faEnvelopeO}{\footerinfosep}{} \getkomasenderinfo{fromurl}{\faGlobe}{\footerinfosep}{} \\
+
+        \vspace{0.5 \baselineskip}
+        \getkomabankinfo
+    }
+}
+\setkomavar{firstfoot}{\footer}
+\cfoot*{\footer}
