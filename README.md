@@ -1,6 +1,9 @@
 # LaTeX-letter
 A LaTeX letter template that uses the `scrlttr2` class of the popular [KOMA-Script](https://www.komascript.de/).
 
+## Example
+![LaTeX-letter example](./example/example.png)
+
 
 ## Usage
 The letter template basically consists of three `TeX` files:
