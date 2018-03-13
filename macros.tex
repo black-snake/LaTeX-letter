@@ -4,10 +4,12 @@
 \widowpenalty10000
 \displaywidowpenalty=10000
 
+
 %---------------------------------------------------------------------------
 % display page numbers differently (page n / m)
 \setkomafont{pagenumber}{\raggedleft \footnotesize}
-\renewcommand{\pagemark}{\usekomafont{pagenumber} \thepage~/~\pageref{LastPage}}
+\renewcommand{\pagemark}{\usekomafont{pagenumber} \thepage~/~\pageref*{LastPage}}
+
 
 %---------------------------------------------------------------------------
 % layout customization
@@ -33,10 +35,12 @@
 % recalculate header and footer
 \recalctypearea
 
+
 %---------------------------------------------------------------------------
 % set length of icon separator
 \newlength \iconsep
 \setlength{\iconsep}{1em}
+
 
 %---------------------------------------------------------------------------
 % sender info command for location field
@@ -45,6 +49,7 @@
         \parbox{\iconsep}{\centering #2} {\def\\{#3}~\usekomavar{#1}} #4
     }
 }
+
 
 %---------------------------------------------------------------------------
 % prepare bank information for footer
@@ -55,6 +60,7 @@
         \usekomavar{frombank}
     \end{tabular}
 }
+
 
 %---------------------------------------------------------------------------
 % location field command
@@ -71,6 +77,7 @@
     }
 }
 
+
 %---------------------------------------------------------------------------
 % header
 \newcommand{\header}{%
@@ -81,6 +88,7 @@
 }
 \setkomavar{firsthead}{\header}
 \ohead*{{\header}}
+
 
 %---------------------------------------------------------------------------
 % footer
@@ -102,3 +110,21 @@
 }
 \setkomavar{firstfoot}{\footer}
 \cfoot*{\footer}
+
+
+%---------------------------------------------------------------------------
+% set PDF metadata to reflect sender's info and letter's properties
+\newcommand{\setpdfmetadata}{%
+    \newcommand*{\pdfauthor}{}
+    \usekomavar[\edef\pdfauthor]{fromname}
+    \newcommand*{\pdftitle}{}
+    \usekomavar[\edef\pdftitle]{title}
+    \newcommand*{\pdfsubject}{}
+    \usekomavar[\edef\pdfsubject]{subject}
+
+    \hypersetup{
+        pdftitle={\pdftitle},
+        pdfauthor={\pdfauthor},
+        pdfsubject={\pdfsubject}
+    }
+}

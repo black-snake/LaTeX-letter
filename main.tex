@@ -22,14 +22,14 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{lastpage}
-\usepackage{url}
+\usepackage[hyphens]{url}
+\usepackage[ngerman]{hyperref}
 \usepackage{graphicx}
 \usepackage{fontawesome}
 
 \usepackage{lipsum}
 
 \input{macros.tex}
-
 
 %---------------------------------------------------------------------------
 % general layout
@@ -44,25 +44,29 @@
 
 \begin{letter}{Empfängername\\Empfängerstraße\\PLZ Ort}
 
+\setkomavar{specialmail}{}
+
 \setkomavar{date}{\today}
 \setkomavar{place}{}
 
 \setkomavar{title}{}
+\setkomavar{subject}{}
+
 \setkomavar{yourref}{}
 \setkomavar{yourmail}{}
 \setkomavar{myref}{}
 \setkomavar{customer}{}
 \setkomavar{invoice}{}
 
-\setkomavar{specialmail}{}
-
-\setkomavar{subject}{}
+% call this AFTER you have declared all metadata fields and BEFORE the following
+\setpdfmetadata
 
 \opening{Sehr geehrte Damen und Herren,}
 
 \lipsum[1-5]
 
 \closing{Mit freundlichen Grüßen}
+
 
 \encl{}
 
