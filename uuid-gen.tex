@@ -1,0 +1,69 @@
+% thanks to Enrico Gregorio (https://tex.stackexchange.com/questions/332329/how-can-one-create-a-random-guid)
+
+\input{random}
+
+\ExplSyntaxOn
+\cs_set_eq:NN \uuid_set_random_number:Nnn \setrannum
+\cs_set_eq:NN \g_uuid_seed_int \randomi
+
+\tl_new:N \l__uuid_four_bytes_tl
+\int_new:N \l__uuid_random_int
+
+\cs_new_protected:Nn \__uuid_generate:n
+{
+    \uuid_set_random_number:Nnn \l__uuid_random_int { 0 } { #1 }
+    \int_case:nn { #1 }
+    {
+        { 4095 }{ \int_add:Nn \l__uuid_random_int { "4000 } }
+            { 16383 }{ \int_add:Nn \l__uuid_random_int { 32768 } }
+    }
+    \tl_set:Nx \l__uuid_four_bytes_tl { \int_to_Hex:n { \l__uuid_random_int } }
+    \tl_set:Nx \l__uuid_four_bytes_tl
+    {
+        \prg_replicate:nn { 4 - \tl_count:N \l__uuid_four_bytes_tl } { 0 }
+        \tl_use:N \l__uuid_four_bytes_tl
+    }
+}
+
+\NewDocumentCommand{\generateUUID}{om}
+{
+    \tl_new:c { g_uuid_user_#2_tl }
+    \group_begin:
+    \IfValueT { #1 } { \int_gset:Nn \g_uuid_seed_int { #1 } } % the seed
+    % Data 1 (eight bytes)
+    \__uuid_generate:n { 65535 }
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { \l__uuid_four_bytes_tl }
+    \__uuid_generate:n { 65535 }
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { \l__uuid_four_bytes_tl }
+    % hyphen
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { - }
+    % Data 2 (four bytes)
+    \__uuid_generate:n { 65535 }
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { \l__uuid_four_bytes_tl }
+    % hyphen
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { - }
+    % Data 3 (four bytes)
+    \__uuid_generate:n { 4095 }
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { \l__uuid_four_bytes_tl }
+    % hyphen
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { - }
+    % Data 4a (three bytes)
+    \__uuid_generate:n { 16383 }
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { \l__uuid_four_bytes_tl }
+    % hyphen
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { - }
+    % Data 4b (twelve bytes)
+    \__uuid_generate:n { 65535 }
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { \l__uuid_four_bytes_tl }
+    \__uuid_generate:n { 65535 }
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { \l__uuid_four_bytes_tl }
+    \__uuid_generate:n { 65535 }
+    \tl_gput_right:cx { g_uuid_user_#2_tl } { \l__uuid_four_bytes_tl }
+    \group_end:
+}
+
+\DeclareExpandableDocumentCommand{\UUID}{m}
+{
+    \tl_use:c { g_uuid_user_#1_tl }
+}
+\ExplSyntaxOff

@@ -21,9 +21,24 @@
 \clearpairofpagestyles
 
 % adjust header and footer to be placed identical to the first page 
-\ModifyLayer[voffset=\dimexpr\useplength{firstfootvpos}\relax]{scrheadings.foot.oneside}
-\ModifyLayer[voffset=\dimexpr\useplength{firstfootvpos}\relax]{scrheadings.foot.above.line}
-\ModifyLayer[align=t, voffset=\dimexpr\useplength{firstheadvpos}]{scrheadings.head.oneside}
+\def \headerlayermodifiers{%
+    align=t,
+    voffset=\dimexpr\useplength{firstheadvpos}\relax,
+    hoffset={0.5 \paperwidth - 0.5 \dimexpr\useplength{firstheadwidth}\relax}
+}
+
+\def \footerlayermodifiers{%
+    voffset=\dimexpr\useplength{firstfootvpos}\relax,
+    hoffset={0.5 \paperwidth - 0.5 \dimexpr\useplength{firstfootwidth}\relax}
+}
+
+\ModifyLayer[\footerlayermodifiers]{scrheadings.foot.above.line}
+\ModifyLayer[\footerlayermodifiers]{scrheadings.foot.oneside}
+\ModifyLayer[\footerlayermodifiers]{scrheadings.foot.odd}
+\ModifyLayer[\footerlayermodifiers]{scrheadings.foot.even}
+\ModifyLayer[\headerlayermodifiers]{scrheadings.head.oneside}
+\ModifyLayer[\headerlayermodifiers]{scrheadings.head.odd}
+\ModifyLayer[\headerlayermodifiers]{scrheadings.head.even}
 
 % adjust width of header and footer to be identical to the first page
 \KOMAoptions{headwidth=\useplength{firstheadwidth}, headheight=36.25pt}
@@ -131,14 +146,21 @@
 
 
 %---------------------------------------------------------------------------
-% declare a layer for the barcode
+% declare a layer for the barcode and add it to every odd page
+% (if using 'oneside' option instead of 'twoside=semi' option for scrlttr2,
+% the barcode is added to every page)
+\input{uuid-gen}
+\generateUUID{documentid}
+
 \DeclareNewLayer[%
-	rightmargin,
-	voffset={0.5 \paperheight},
-	contents={%
+    oddpage,
+    background,
+    leftmargin,
+	voffset={0.375 \paperheight},
+    contents={%
         \begin{center}
-            \begin{pspicture}[shift=*](0.5in, 0.5in)
-                \psbarcode{ENTER YOUR DATA FOR THE BARCODE HERE}{width=0.5 height=0.5}{qrcode}
+            \begin{pspicture}[shift=*](1cm, 1cm)
+                \psbarcode{\UUID{documentid}}{width=0.3 height=0.3}{datamatrix}
             \end{pspicture}
         \end{center}
     }
