@@ -138,11 +138,10 @@
 	contents={%
         \begin{center}
             \begin{pspicture}[shift=*](0.5in, 0.5in)
-                \psbarcode{e2afdc6b-8a14-46d2-8c13-3f4e23ed295f}{width=0.5 height=0.5}{qrcode}
+                \psbarcode{ENTER YOUR DATA FOR THE BARCODE HERE}{width=0.5 height=0.5}{qrcode}
             \end{pspicture}
         \end{center}
     }
 ]{barcode-layer}
 
-\AddLayersToPageStyle{empty}{barcode-layer}
-\AddLayersToPageStyle{scrheadings}{barcode-layer}
+\AddLayersToPageStyle{@everystyle@}{barcode-layer}
