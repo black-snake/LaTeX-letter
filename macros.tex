@@ -7,15 +7,15 @@
 
 %---------------------------------------------------------------------------
 % display page numbers differently (page n / m)
-\setkomafont{pagenumber}{\raggedleft \footnotesize}
-\renewcommand{\pagemark}{\usekomafont{pagenumber} \thepage~/~\pageref*{LastPage}}
+\setkomafont{pagenumber}{\centering \footnotesize}
+\renewcommand{\pagemark}{\usekomafont{pagenumber} Seite \thepage~von~\pageref*{LastPage}}
 
 
 %---------------------------------------------------------------------------
 % layout customization
 \makeatletter
 \@addtoplength[-]{firstheadvpos}{-12.5pt}   % place header a bit more up
-\@addtoplength[-]{firstfootvpos}{45pt}      % place footer a bit more down
+\@addtoplength[-]{firstfootvpos}{55pt}      % place footer a bit more down
 \makeatother
 
 \clearpairofpagestyles
@@ -26,8 +26,8 @@
 \ModifyLayer[align=t, voffset=\dimexpr\useplength{firstheadvpos}]{scrheadings.head.oneside}
 
 % adjust width of header and footer to be identical to the first page
-\KOMAoptions{headwidth=\useplength{firstheadwidth}, headheight=36pt}
-\KOMAoptions{footwidth=\useplength{firstfootwidth}, footheight=90pt}
+\KOMAoptions{headwidth=\useplength{firstheadwidth}, headheight=36.25pt}
+\KOMAoptions{footwidth=\useplength{firstfootwidth}, footheight=100pt}
 
 % remove shared formatting of header and footer
 \setkomafont{pageheadfoot}{}
@@ -96,8 +96,14 @@
 
 \newcommand{\footer}{%
     \parbox{\useplength{firstfootwidth}}{
-        \pagemark\\
-        \rule[2mm]{\useplength{firstfootwidth}}{0.5pt}
+        \ifnum \getrefbykeydefault{LastPage}{page}{1} = 1 \relax
+            \phantom{\pagemark}
+        \else
+            \pagemark
+        \fi
+        \vspace{\baselineskip}
+
+        \rule[1mm]{\useplength{firstfootwidth}}{0.5pt}
         \centering \scriptsize
 
         \getkomasenderinfo{fromaddress}{\faMapMarker}{\footerinfosep}{\\}
