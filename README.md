@@ -17,6 +17,8 @@ The letter template basically consists of three user-relevant `TeX` files:
 | `macros.tex`  | This file comprises typographic and layout customization as well as macros for the header, footer and location fields.    |
 
 ### General Note
+Due to the barcode functionality, which makes use of the package `pst-barcode` and thus on the underlying package `pstricks`, the `.tex` files should be compiled with `xelatex`.
+
 Please refer to the [KOMA guide](https://www.ctan.org/pkg/scrlttr2) for a comprehensive description of the KOMA variables used.
 
 
