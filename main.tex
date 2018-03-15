@@ -6,7 +6,6 @@
     fontsize=12pt,              % font size
     paper=a4,                   % paper size
     parskip=half,               % paragraphing
-    footnotes=true,             % switch to enable footnotes
     firsthead=true,             % switch to enable header on first page
     firstfoot=true,             % switch to enable footer on first page
     locfield=wide,              % width of location field
@@ -32,11 +31,13 @@
 
 \usepackage{lipsum}
 
-\input{macros.tex}
+% load all helpers
+\input{./helpers/uuid-gen.tex}
+\input{./helpers/macros.tex}
 
 %---------------------------------------------------------------------------
 % general layout
-\LoadLetterOption{sender}               % sender via sender.lco
+\LoadLetterOption{sender}               % sender via .lco file
 
 %\getkomasenderlocation{\footnotesize}  % sender info in location field
 
@@ -45,34 +46,7 @@
 % document
 \begin{document}
 
-\begin{letter}{Empfängername\\Empfängerstraße\\PLZ Ort}
-
-\setkomavar{specialmail}{}
-
-\setkomavar{date}{\today}
-\setkomavar{place}{}
-
-\setkomavar{title}{}
-\setkomavar{subject}{}
-
-\setkomavar{yourref}{}
-\setkomavar{yourmail}{}
-\setkomavar{myref}{}
-\setkomavar{customer}{}
-\setkomavar{invoice}{}
-
-% call this AFTER you have declared all metadata fields and BEFORE the following
 \setpdfmetadata
-
-\opening{Sehr geehrte Damen und Herren,}
-
-\lipsum[1-5]
-
-\closing{Mit freundlichen Grüßen}
-
-
-\encl{}
-
-\end{letter}
+\input{content.tex}
 
 \end{document}
