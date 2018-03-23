@@ -42,7 +42,7 @@
 
 % adjust width of header and footer to be identical to the first page
 \KOMAoptions{headwidth=\useplength{firstheadwidth}, headheight=36.5pt}
-\KOMAoptions{footwidth=\useplength{firstfootwidth}, footheight=100pt}
+\KOMAoptions{footwidth=\useplength{firstfootwidth}, footheight=100.5pt}
 
 % remove shared formatting of header and footer
 \setkomafont{pageheadfoot}{}
@@ -116,7 +116,7 @@
         \else
             \pagemark
         \fi
-        \vspace{\baselineskip}
+        \vspace{0.6 \baselineskip} \setstretch{1.1}
 
         \rule[1mm]{\useplength{firstfootwidth}}{0.5pt}
         \centering \scriptsize
