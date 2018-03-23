@@ -183,3 +183,14 @@
     }
 ]{documentid-layer}
 \AddLayersToPageStyle{@everystyle@}{documentid-layer}
+
+
+%---------------------------------------------------------------------------
+% quick command for adding attribute to reffields
+% #1 attribute name
+% #2 attribute description
+% #3 attribute value
+\newcommand{\newreffield}[3]{%
+    \newkomavar*[#2]{#1}
+    \setkomavar{#1}{#3}
+}
