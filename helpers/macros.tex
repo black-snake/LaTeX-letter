@@ -165,8 +165,7 @@
     background,
     leftmargin,
 	voffset={0.5 \paperheight - 0.5 \barcodesize},
-    contents={%
-        \hspace{1cm}
+    contents={\hspace{1cm}
         \begin{pspicture}[](\barcodesize, \barcodesize)
             \psbarcode{\UUID{documentid}}{width=0.3 height=0.3}{datamatrix}
         \end{pspicture}
@@ -174,3 +173,17 @@
 ]{barcode-layer}
 
 \AddLayersToPageStyle{@everystyle@}{barcode-layer}
+
+\DeclareNewLayer[%
+    oddpage,
+    background,
+    leftmargin,
+    voffset={0.75 \paperheight},
+    contents={\hspace{1.5cm} \tiny
+        \begin{rotate}{90}
+            \color{gray} \UUID{documentid}
+        \end{rotate}
+    }
+]{documentid-layer}
+
+\AddLayersToPageStyle{@everystyle@}{documentid-layer}
