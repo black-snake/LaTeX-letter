@@ -157,17 +157,19 @@
 % the barcode is added to every page)
 \generateUUID{documentid}
 
+\newlength \barcodesize
+\setlength{\barcodesize}{0.3in}
+
 \DeclareNewLayer[%
     oddpage,
     background,
     leftmargin,
-	voffset={0.375 \paperheight},
+	voffset={0.5 \paperheight - 0.5 \barcodesize},
     contents={%
-        \begin{center}
-            \begin{pspicture}[shift=*](1cm, 1cm)
-                \psbarcode{\UUID{documentid}}{width=0.3 height=0.3}{datamatrix}
-            \end{pspicture}
-        \end{center}
+        \hspace{1cm}
+        \begin{pspicture}[](\barcodesize, \barcodesize)
+            \psbarcode{\UUID{documentid}}{width=0.3 height=0.3}{datamatrix}
+        \end{pspicture}
     }
 ]{barcode-layer}
 
