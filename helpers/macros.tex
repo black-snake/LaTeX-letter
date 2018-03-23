@@ -52,13 +52,10 @@
 
 
 %---------------------------------------------------------------------------
-% set length of icon separator
+% sender info command for location field
 \newlength \iconsep
 \setlength{\iconsep}{1em}
 
-
-%---------------------------------------------------------------------------
-% sender info command for location field
 \newcommand{\getkomasenderinfo}[4]{%
     \ifkomavarempty{#1}{}{
         \parbox{\iconsep}{\centering #2} {\def\\{#3}~\usekomavar{#1}} #4
@@ -172,7 +169,6 @@
         \end{pspicture}
     }
 ]{barcode-layer}
-
 \AddLayersToPageStyle{@everystyle@}{barcode-layer}
 
 \DeclareNewLayer[%
@@ -186,5 +182,4 @@
         \end{rotate}
     }
 ]{documentid-layer}
-
 \AddLayersToPageStyle{@everystyle@}{documentid-layer}
