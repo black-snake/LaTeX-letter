@@ -144,7 +144,7 @@
         pdftitle={\pdftitle},
         pdfauthor={\pdfauthor},
         pdfsubject={\pdfsubject},
-        pdfkeywords={\UUID{documentid}}
+        pdfkeywords={\getdocumentid}
     }
 }
 
@@ -153,7 +153,19 @@
 % declare a layer for the barcode and add it to every odd page
 % (if using 'oneside' option instead of 'twoside=semi' option for scrlttr2,
 % the barcode is added to every page)
-\generateUUID{documentid}
+
+% command to get the document id from file
+\CatchFileDef{\getdocumentid}{.doc-id}{\endlinechar=-1\relax}
+
+\IfFileExists{./.doc-id}{}{
+    % if there is no document ID, generate one and save it
+    \generateUUID{documentid}
+
+    \newwrite\tempfile
+	\immediate\openout\tempfile=.doc-id
+	\immediate\write\tempfile{\UUID{documentid}}
+	\immediate\closeout\tempfile
+}
 
 \newlength \barcodesize
 \setlength{\barcodesize}{0.3in}
@@ -165,7 +177,7 @@
 	voffset={0.5 \paperheight - 0.5 \barcodesize},
     contents={\hspace{1cm}
         \begin{pspicture}[](\barcodesize, \barcodesize)
-            \psbarcode{\UUID{documentid}}{width=0.3 height=0.3}{datamatrix}
+				\psbarcode[file]{.doc-id}{width=0.3 height=0.3}{datamatrix}
         \end{pspicture}
     }
 ]{barcode-layer}
@@ -178,7 +190,7 @@
     voffset={0.75 \paperheight},
     contents={\hspace{1.5cm} \tiny
         \begin{rotate}{90}
-            \color{darkgray} \UUID{documentid}
+				\color{darkgray} \getdocumentid
         \end{rotate}
     }
 ]{documentid-layer}

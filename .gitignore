@@ -230,3 +230,6 @@ TSWLatexianTemp*
 
 # LaTeX indent
 __latexindent_temp.tex
+
+# no document IDs
+/.doc-id
