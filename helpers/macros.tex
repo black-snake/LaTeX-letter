@@ -131,41 +131,22 @@
 
 
 %---------------------------------------------------------------------------
-% set PDF metadata to reflect sender's info and letter's properties
-\newcommand{\setpdfmetadata}{%
-    \newcommand*{\pdfauthor}{}
-    \usekomavar[\edef\pdfauthor]{fromname}
-    \newcommand*{\pdftitle}{}
-    \usekomavar[\edef\pdftitle]{title}
-    \newcommand*{\pdfsubject}{}
-    \usekomavar[\edef\pdfsubject]{subject}
-
-    \hypersetup{
-        pdftitle={\pdftitle},
-        pdfauthor={\pdfauthor},
-        pdfsubject={\pdfsubject},
-        pdfkeywords={\getdocumentid}
-    }
-}
-
-
-%---------------------------------------------------------------------------
 % declare a layer for the barcode and add it to every odd page
 % (if using 'oneside' option instead of 'twoside=semi' option for scrlttr2,
 % the barcode is added to every page)
 
-% command to get the document id from file
-\CatchFileDef{\getdocumentid}{.doc-id}{\endlinechar=-1\relax}
-
-\IfFileExists{./.doc-id}{}{
+\IfFileExists{./_doc.id}{}{%
     % if there is no document ID, generate one and save it
     \generateUUID{documentid}
 
     \newwrite\tempfile
-	\immediate\openout\tempfile=.doc-id
+	\immediate\openout\tempfile=_doc.id
 	\immediate\write\tempfile{\UUID{documentid}}
 	\immediate\closeout\tempfile
 }
+
+% command to get the document id from file
+\CatchFileDef{\getdocumentid}{_doc.id}{\endlinechar=-1\relax}
 
 \newlength \barcodesize
 \setlength{\barcodesize}{0.3in}
@@ -177,7 +158,7 @@
 	voffset={0.5 \paperheight - 0.5 \barcodesize},
     contents={\hspace{1cm}
         \begin{pspicture}[](\barcodesize, \barcodesize)
-				\psbarcode[file]{.doc-id}{width=0.3 height=0.3}{datamatrix}
+				\psbarcode[file]{_doc.id}{width=0.3 height=0.3}{datamatrix}
         \end{pspicture}
     }
 ]{barcode-layer}
@@ -195,6 +176,25 @@
     }
 ]{documentid-layer}
 \AddLayersToPageStyle{@everystyle@}{documentid-layer}
+
+
+%---------------------------------------------------------------------------
+% set PDF metadata to reflect sender's info and letter's properties
+\newcommand{\setpdfmetadata}{%
+	\newcommand*{\pdfauthor}{}
+	\usekomavar[\edef\pdfauthor]{fromname}
+	\newcommand*{\pdftitle}{}
+	\usekomavar[\edef\pdftitle]{title}
+	\newcommand*{\pdfsubject}{}
+	\usekomavar[\edef\pdfsubject]{subject}
+	
+	\hypersetup{
+		pdftitle={\pdftitle},
+		pdfauthor={\pdfauthor},
+		pdfsubject={\pdfsubject},
+		pdfkeywords={\getdocumentid}
+	}
+}
 
 
 %---------------------------------------------------------------------------
